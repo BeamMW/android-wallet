@@ -39,12 +39,20 @@ android {
     }
 
     compileSdkVersion 32
+
+    // The wallet core .so files are prebuilt (and stripped when fetched). Don't
+    // let AGP strip them again: that needs the NDK, which isn't required to build
+    // otherwise and isn't present on CI, where it fails stripReleaseDebugSymbols.
+    packagingOptions {
+        doNotStrip '**/*.so'
+    }
+
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 512
-        versionName "7.3"
+        versionCode 513
+        versionName "7.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -68,7 +76,7 @@ android {
 
             reset()
 
-            include "arm64-v8a", "armeabi", "armeabi-v7a", "x86", "x86_64"
+            include "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
 
             universalApk true
         }
@@ -79,15 +87,6 @@ android {
             dimension "api"
             applicationIdSuffix ".mainnet"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-mainnet.pro'
-        }
-        masternet {
-            dimension "api"
-            applicationIdSuffix ".masternet"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-masternet.pro'
-        }
-        beamtestnet {
-            dimension "api"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-testnet.pro'
         }
     }
 }
@@ -134,42 +133,8 @@ repositories {
 
 
 tasks.whenTaskAdded { task ->
-    if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
-//        task.dependsOn updateMasternetLibs
-    }
-    if (task.name == 'assembleBeamtestnetDebug' || task.name == 'assembleBeamtestnetRelease') {
-//        task.dependsOn updateTestnetLibs
-    }
     if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
         //  task.dependsOn updateMainnetLibs
-    }
-}
-
-task updateMasternetLibs(type: Exec) {
-    doFirst {
-        workingDir "$rootDir"
-        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
-        } else {
-            exec {
-                commandLine 'chmod', '+x', file("$rootDir/android-wallet-masternet.sh").absolutePath
-            }
-            commandLine "$rootDir/android-wallet-masternet.sh"
-        }
-    }
-}
-
-task updateTestnetLibs(type: Exec) {
-    doFirst {
-        workingDir "$rootDir"
-        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-testnet.bat").absolutePath
-        } else {
-            exec {
-                commandLine 'chmod', '+x', file("$rootDir/android-wallet-testnet.sh").absolutePath
-            }
-            commandLine "$rootDir/android-wallet-testnet.sh"
-        }
     }
 }
 
@@ -212,9 +177,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
-    debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
+    // LeakCanary 1.x removed: its DisplayLeakActivity lacks android:exported, which
+    // blocks installs on API 31+ (INSTALL_PARSE_FAILED_MANIFEST_MALFORMED). No code usage.
     implementation "com.google.code.gson:gson:$ver_gson"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "org.jetbrains.anko:anko-commons:0.10.4"

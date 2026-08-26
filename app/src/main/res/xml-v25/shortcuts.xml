@@ -10,7 +10,7 @@
         <intent
             android:action="android.intent.action.BUY_BEAM"
             android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
-            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+            android:targetPackage="com.mw.beam.beamwallet.mainnet"/>
     </shortcut>
 
     <shortcut
@@ -23,7 +23,7 @@
         <intent
             android:action="android.intent.action.SCAN_QR"
             android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
-            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+            android:targetPackage="com.mw.beam.beamwallet.mainnet"/>
     </shortcut>
 
     <shortcut
@@ -36,7 +36,7 @@
         <intent
             android:action="android.intent.action.RECEIVE_BEAM"
             android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
-            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+            android:targetPackage="com.mw.beam.beamwallet.mainnet"/>
     </shortcut>
 
     <shortcut
@@ -49,7 +49,7 @@
         <intent
             android:action="android.intent.action.SEND_BEAM"
             android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
-            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+            android:targetPackage="com.mw.beam.beamwallet.mainnet"/>
     </shortcut>
 
 </shortcuts>

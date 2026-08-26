@@ -58,17 +58,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun init() {
         btnNext.isEnabled = false
 
-        when(BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> {
-                btnShare.visibility = View.VISIBLE
-            }
-            AppConfig.FLAVOR_TESTNET -> {
-                btnShare.visibility = View.VISIBLE
-            }
-            AppConfig.FLAVOR_MAINNET -> {
-                btnShare.visibility = View.GONE
-            }
-        }
+        btnShare.visibility = View.GONE
     }
 
     override fun initSuggestions(suggestions: List<String>) {

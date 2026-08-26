@@ -136,6 +136,10 @@
             android:name="onlyDisplay"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="isVerification"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeConfirmFragment"
@@ -145,6 +149,10 @@
         <argument
             android:name="seed"
             app:argType="string[]" />
+        <argument
+            android:name="isVerification"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_welcomeConfirmFragment_to_passwordFragment"
             app:destination="@id/passwordFragment"
@@ -408,6 +416,14 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
+            android:id="@+id/action_settingsFragment_to_appDetailFragment"
+            app:destination="@id/appDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
             android:id="@+id/action_settingsFragment_self"
             app:destination="@id/settingsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -442,6 +458,13 @@
         <action
             android:id="@+id/action_settingsFragment_to_utxoFragment"
             app:destination="@id/utxoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_nodePeersFragment"
+            app:destination="@id/nodePeersFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -483,6 +506,13 @@
         <action
             android:id="@+id/action_addressesFragment_to_editAddressFragment"
             app:destination="@id/editAddressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addressesFragment_to_publicOfflineAddressFragment"
+            app:destination="@id/publicOfflineAddressFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -1224,6 +1254,11 @@
         android:id="@+id/publicOfflineAddressFragment"
         android:name="com.mw.beam.beamwallet.screens.public_offline_address.PublicOfflineAddressFragment"
         android:label="PublicOfflineAddressFragment" />
+    <fragment
+        android:id="@+id/nodePeersFragment"
+        tools:layout="@layout/fragment_node_peers"
+        android:name="com.mw.beam.beamwallet.screens.node_peers.NodePeersFragment"
+        android:label="NodePeersFragment" />
     <fragment
         android:id="@+id/chooseCurrencyFragment"
         android:name="com.mw.beam.beamwallet.screens.choose_currency.ChooseCurrencyFragment"

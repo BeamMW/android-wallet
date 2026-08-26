@@ -24,7 +24,8 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.disposables.Disposable
 import java.net.URI
-import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
@@ -40,7 +41,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         SAVE, SHARE
     }
 
-    private lateinit var faucetGeneratedSubscription: Disposable
     private lateinit var exportDataSubscription: Disposable
     private lateinit var importDataSubscription: Disposable
     private lateinit var reconnectedSubscription: Disposable
@@ -68,30 +68,17 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.onReconnected()
         }
 
-        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
-            AppActivity.self.runOnUiThread {
-                val link =  when (BuildConfig.FLAVOR) {
-                    AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
-                    AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
-                    else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=app://open.master.app"
-                }
-
-                view?.onFaucetAddressGenerated(link)
-            }
-        }
-
         exportDataSubscription = WalletListener.subOnDataExported.subscribe {
-            val json = Gson()
-
-            val resultJson = it
-
-            val map = json.fromJson(resultJson, HashMap::class.java)
+            // Filter the parsed tree, not a HashMap round-trip — Gson turns every JSON
+            // number into a Double, mangling timestamps and 2^53+ address indices.
+            val element = JsonParser().parse(it)
+            val json = if (element.isJsonObject) element.asJsonObject else JsonObject()
 
             for(param in excludeExportParameters){
-                map.remove(param)
+                json.remove(param)
             }
 
-            val result = json.toJson(map).toString()
+            val result = json.toString()
 
             if (exportType == ExportType.SHARE) {
                 val file = repository.getDataFile(result)
@@ -104,7 +91,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         importDataSubscription = WalletListener.subOnDataImported.subscribe {
             if (!it)  {
-                view?.exportError()
+                view?.importError()
             }
         }
     }
@@ -350,10 +337,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToPaymentProof()
     }
 
-    override fun generateFaucetAddress() {
-        AppManager.instance.createAddressForFaucet()
-    }
-
     override fun onDialogClosePressed() {
         view?.closeDialog()
     }
@@ -410,8 +393,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         repository.setAllowAddressExpiration(allow)
     }
 
-    override fun onShowPublicOfflineAddressPressed() {
-        view?.showPublicOfflineAddress()
+
+    override fun onNodePeersPressed() {
+        view?.showNodePeers()
     }
 
     override fun onUTXOPressed() {
@@ -424,5 +408,5 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription, walletStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(exportDataSubscription, importDataSubscription, reconnectedSubscription, walletStatusSubscription)
 }

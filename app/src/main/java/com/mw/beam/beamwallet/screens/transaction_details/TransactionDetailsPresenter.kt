@@ -77,11 +77,11 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         }
 
         addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
-            if (it == false) {
-                state.txDescription = AppManager.instance.getTransaction(state.txID!!)
-                if (state.txDescription != null) {
-                    view?.updateAddresses(state.txDescription!!)
-                }
+            // Refresh on any address-book change: saving a contact arrives as an ADDED
+            // change event, which AppManager forwards with `true`, not `false`.
+            state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+            if (state.txDescription != null) {
+                view?.updateAddresses(state.txDescription!!)
             }
         }
     }
@@ -173,7 +173,12 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSaveContact() {
         state.txDescription?.let { txDescription ->
-            view?.showSaveContact(txDescription.receiverAddress)
+            // Always the other party. Using receiverAddress unconditionally meant a received
+            // transaction offered to save our own address, which the address book already holds.
+            val contactAddress = txDescription.contactAddress()
+            if (contactAddress.isNotEmpty()) {
+                view?.showSaveContact(contactAddress)
+            }
         }
     }
 

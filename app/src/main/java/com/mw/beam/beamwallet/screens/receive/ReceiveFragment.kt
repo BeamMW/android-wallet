@@ -34,6 +34,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
@@ -111,6 +112,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
+        // Opened on a specific existing address (e.g. from the address book) — replacing it
+        // with a freshly minted one is not what the user asked for.
+        refreshAddressButton.visibility = if (getWalletAddressFromArguments() == null) View.VISIBLE else View.GONE
+
         secondAvailableSum.text = (getAmount() ?: 0.0).convertToGroth().exchangeValueAsset(assetId)
         amount.filters = arrayOf(AmountFilter())
         amountTitle.text = "${getString(R.string.requested_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
@@ -133,12 +138,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             maxPrivacyAddress = walletAddress.tokenMaxPrivacy
 
             if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-                addressHintLabel.visibility = View.GONE
                 if (!AppManager.instance.isMaxPrivacyEnabled()) {
                     addressLabel.text = walletAddress.address.trimAddress()
+                    addressHintLabel.text = getString(R.string.sbbs_address_hint)
+                    addressHintLabel.visibility = View.VISIBLE
                 }
                 else {
                     addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                    addressHintLabel.visibility = View.GONE
                 }
             }
             else {
@@ -156,15 +163,17 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         txComment.setText(walletAddress.label)
 
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressHintLabel.visibility = View.GONE
             switchView.isChecked = false
             addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
                 addressLabel.text = walletAddress.address.trimAddress()
+                addressHintLabel.text = getString(R.string.sbbs_address_hint)
+                addressHintLabel.visibility = View.VISIBLE
             }
             else {
                 addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                addressHintLabel.visibility = View.GONE
             }
         }
         else {
@@ -317,6 +326,25 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         copyButton.setOnClickListener {
             presenter?.onCopyPressed()
         }
+
+        refreshAddressButton.setOnClickListener {
+            presenter?.onRefreshAddressPressed()
+
+            // Shown once, so the first tap explains that refreshing is optional. An alert
+            // rather than a snackbar: the snackbar dismisses itself after three seconds,
+            // which is not long enough to read a sentence that is only ever shown once.
+            if (!PreferencesManager.getBoolean(PreferencesManager.KEY_GENERATE_NEW_ADDRESS_HINT_SHOWN)) {
+                PreferencesManager.putBoolean(PreferencesManager.KEY_GENERATE_NEW_ADDRESS_HINT_SHOWN, true)
+                showAlert(
+                    message = getString(R.string.generate_new_address_hint),
+                    btnConfirmText = getString(R.string.ok),
+                    onConfirm = {},
+                    title = getString(R.string.generate_new_address)
+                )
+            }
+        }
+
+        TooltipCompat.setTooltipText(refreshAddressButton, getString(R.string.generate_new_address))
 
         if(AssetManager.instance.filteredAssets.size != 1) {
             currencyLayout.setOnClickListener {
@@ -525,6 +553,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun clearListeners() {
         btnShareToken.setOnClickListener(null)
+        refreshAddressButton.setOnClickListener(null)
 
         amount.removeTextChangedListener(amountWatcher)
         amount.onFocusChangeListener = null

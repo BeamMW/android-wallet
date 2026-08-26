@@ -27,7 +27,12 @@ class AddressesState {
     fun filteredAddresses(item:Int): List<WalletAddress> {
         return when (item) {
             0 -> {
-                addresses.filter { !it.isExpired && !it.isContact }
+                val active = addresses.filter { !it.isExpired && !it.isContact }
+                // Pinned above the real addresses, matching the iOS wallet. It is a token rather
+                // than a database address, so drop any real row carrying the same value first.
+                val publicOffline = AppManager.instance.publicOfflineWalletAddress()
+                    ?: return active
+                listOf(publicOffline) + active.filter { it.id != publicOffline.id }
             }
             1 -> {
                 addresses.filter { it.isExpired && !it.isContact }

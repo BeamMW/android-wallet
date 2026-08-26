@@ -82,6 +82,10 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         var withdrawAmount = 0
         var withdrawUserId = ""
 
+        /** Set across the recreate() that applies a dark-mode change, so the user lands back
+         *  on the screen they toggled it from instead of on the wallet. */
+        var returnToSettings = false
+
         const val IMPORT_FILE_REQUEST = 1024
         const val SHARE_CODE_REQUEST = 1025
 
@@ -152,6 +156,16 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         checkShortCut()
 
         self = this
+
+        if (returnToSettings) {
+            returnToSettings = false
+            // The nav host has not restored its graph yet at this point.
+            Handler().post {
+                selectItem(NavItem.ID.SETTINGS)
+                val options = NavOptions.Builder().setPopUpTo(R.id.settingsFragment, true).build()
+                findNavController(R.id.nav_host).navigate(R.id.settingsFragment, null, options)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -357,12 +371,26 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             val inputStream = contentResolver.openInputStream(uri)
             val json = inputStream?.bufferedReader().use { it?.readText() }
 
-            Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+            val element = Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+
+            if (!isWalletData(element)) return null
 
             return json
         }
         catch (e: Exception) {
             return null
+        }
+    }
+
+    // Shape check so "Incorrect file" only fires for wrong files — a valid file the
+    // wallet core rejects gets its own message instead.
+    private fun isWalletData(element: JsonElement): Boolean {
+        if (!element.isJsonObject) return false
+
+        val json = element.asJsonObject
+
+        return listOf("OwnAddresses", "Contacts", "TransactionParameters").any {
+            json.get(it)?.isJsonArray == true
         }
     }
 

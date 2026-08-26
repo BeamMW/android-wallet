@@ -46,9 +46,9 @@ enum class BMAddressType(val value: Int) {
 class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     constructor(address: String) : this(WalletAddressDTO("", "", "", 0L, 0L, 1L, "", address))
 
-    private val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
+    private val walletID: String = (source.walletID ?: "").replaceFirst(Regex("^0+"), "")
 
-    var label: String = source.label
+    var label: String = source.label ?: ""
     var createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
@@ -56,8 +56,8 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     var isContact = own == 0L
     var tokenOffline = ""
     var tokenMaxPrivacy = ""
-    var identity = source.identity
-    var address = source.address
+    var identity = source.identity ?: ""
+    var address = source.address ?: ""
     var displayAddress:String? = null
 
     fun toDTO(): WalletAddressDTO = source.apply {

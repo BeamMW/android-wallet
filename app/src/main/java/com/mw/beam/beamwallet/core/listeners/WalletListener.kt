@@ -336,7 +336,7 @@ object WalletListener {
             val notification = Notification(
                     NotificationType.Address,
                     notificationInfo.id,
-                    content.walletID,
+                    content.walletID ?: "",
                     notificationInfo.state == 1,
                     false, notificationInfo.createTime,
                     "")

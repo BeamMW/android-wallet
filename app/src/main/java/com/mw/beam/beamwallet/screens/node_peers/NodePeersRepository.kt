@@ -14,24 +14,8 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.save_address
+package com.mw.beam.beamwallet.screens.node_peers
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.entities.WalletAddress
 
-class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
-    override fun saveAddress(address: WalletAddress, own: Boolean) {
-        getResult("updateAddress") {
-            val dto = address.toDTO()
-            val name = dto.label ?: ""
-            val tmpAddress = AppManager.instance.getAddress(address.id)
-            if(tmpAddress==null) {
-                wallet?.saveAddress(dto, own)
-            }
-            else{
-                wallet?.updateAddress(address.id ,name,0)
-            }
-        }
-    }
-}
+class NodePeersRepository: BaseRepository(), NodePeersContract.Repository

@@ -19,6 +19,8 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import android.os.Handler
+import android.os.Looper
 import io.reactivex.disposables.Disposable
 
 /**
@@ -29,6 +31,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         AddressesContract.Presenter {
 
     private lateinit var addressesSubscription: Disposable
+    private lateinit var publicOfflineSubscription: Disposable
     var isAllSelected = false
 
     override fun onViewCreated() {
@@ -37,7 +40,17 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     override fun onAddressPressed(address: WalletAddress) {
-        view?.showAddressDetails(address)
+        if (isPublicOffline(address)) {
+            view?.showPublicOfflineAddress()
+        }
+        else {
+            view?.showAddressDetails(address)
+        }
+    }
+
+    fun isPublicOffline(address: WalletAddress): Boolean {
+        val publicOffline = AppManager.instance.publicOfflineAddress
+        return publicOffline.isNotEmpty() && address.id == publicOffline
     }
 
     override fun initSubscriptions() {
@@ -50,6 +63,21 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
             state.addresses.clear()
             state.addresses.addAll(AppManager.instance.getAllAddresses())
             updateView()
+        }
+
+        // Unlike most listener callbacks, onPublicAddress is delivered straight from the native
+        // thread rather than through WalletListener's ui handler, so the list update has to be
+        // marshalled. Main-looper post rather than AppActivity.self: no activity reference to
+        // race with teardown, and view? is simply null once the fragment is gone.
+        publicOfflineSubscription = AppManager.instance.subOnPublicAddress.subscribe {
+            Handler(Looper.getMainLooper()).post {
+                updateView()
+            }
+        }
+
+        // One token per wallet that never expires, so this is asked for once and cached.
+        if (AppManager.instance.publicOfflineAddress.isEmpty()) {
+            AppManager.instance.getPublicAddress()
         }
 
         updateView()
@@ -111,15 +139,15 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     private fun updateView() {
-        val addresses = state.addresses
-
-        view?.updateAddresses(Tab.ACTIVE, addresses.filter { !it.isExpired && !it.isContact })
-        view?.updateAddresses(Tab.EXPIRED, addresses.filter { it.isExpired && !it.isContact })
-        view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
-        view?.updatePlaceholder(addresses.count() == 0)
+        // Through state.filteredAddresses so the rendered rows and the select-all count agree —
+        // the active tab carries the pinned public offline entry, which is not in state.addresses.
+        view?.updateAddresses(Tab.ACTIVE, state.filteredAddresses(Tab.ACTIVE.value))
+        view?.updateAddresses(Tab.EXPIRED, state.filteredAddresses(Tab.EXPIRED.value))
+        view?.updateAddresses(Tab.CONTACTS, state.filteredAddresses(Tab.CONTACTS.value))
+        view?.updatePlaceholder(state.addresses.count() == 0)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, publicOfflineSubscription)
 
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true

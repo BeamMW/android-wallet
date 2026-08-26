@@ -158,6 +158,15 @@
                             android:background="@drawable/ic_scan_qr"
                             android:padding="5dp" />
 
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/refreshAddressButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:background="@drawable/ic_btn_refresh"
+                            android:contentDescription="@string/generate_new_address"
+                            android:padding="5dp" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"

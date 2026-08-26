@@ -172,6 +172,18 @@
                             android:paddingEnd="10dp"
                             android:paddingStart="10dp"
                             android:text="@string/extend"/>
+                        <TextView
+                            android:id="@+id/neverExpiresButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="14sp"
+                            android:textColor="@color/accent"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingStart="10dp"
+                            android:text="@string/never"/>
                     </LinearLayout>
 
                     <TextView

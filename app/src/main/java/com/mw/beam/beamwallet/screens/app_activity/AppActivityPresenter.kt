@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.app_activity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.AppManager
 
 class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActivityContract.Repository) : BasePresenter<AppActivityContract.View, AppActivityContract.Repository>(view, repository), AppActivityContract.Presenter {
@@ -27,12 +26,13 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     override fun onViewCreated() {
         super.onViewCreated()
 
-        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
-            PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
-            PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
-            removeDatabase()
-        }
-        else{
+        // An unfinished restore is cleaned up on a cold start by App.onCreate, which drops the
+        // database and clears the flag before any activity exists — and by WelcomeOpenPresenter
+        // when the user lands back on the open screen. Seeing the flag here therefore means a
+        // restore is in flight in this very process and the activity was merely recreated (theme
+        // or locale change, system reclaim). Deleting the database then destroys the wallet being
+        // restored, so leave it, and leave the restored back stack to carry on where it was.
+        if (!PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
             if (repository.isWalletInitialized() && !App.isAuthenticated) {
                 view?.showOpenFragment()
             }

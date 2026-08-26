@@ -1,0 +1,101 @@
+name: Build
+
+on:
+  push:
+    branches: [master, v7.4]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build mainnet release APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The toolchain is pinned: AGP 3.5.0 + Gradle 6.1.1 only run on JDK 8-13,
+      # and JDK 8's javac crashes on modern dependency jars, so JDK 11 it is.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: gradle
+
+      # AGP 3.5.0 can't parse the metadata of the runner's preinstalled SDK
+      # (API 34+ platforms use an extension-level format that trips its parser:
+      # "NumberFormatException: Not a number: 34x"). Install an isolated,
+      # minimal SDK with only what this build needs: android-32 (compileSdk)
+      # and build-tools 28.0.3 (AGP 3.5's default).
+      - name: Prepare an AGP-3.5-compatible Android SDK
+        run: |
+          set -e
+          SDK="$HOME/android-sdk-agp35"
+          mkdir -p "$SDK"
+          # sdkmanager needs JDK 17+; the build itself runs on JDK 11 (set above),
+          # so invoke sdkmanager with the runner's JDK 17 explicitly.
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --sdk_root="$SDK" \
+            "platform-tools" "platforms;android-32" "build-tools;28.0.3" > /dev/null
+          yes | "$SDKMANAGER" --sdk_root="$SDK" --licenses > /dev/null || true
+          echo "sdk.dir=$SDK" > local.properties
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          # The runner's NDK (27.x) is incompatible with AGP 3.5's strip task
+          # (missing GNU strip tools, unknown riscv64 ABI). Hide it from AGP so
+          # the task degrades to a warning and packages the prebuilt .so as-is.
+          # AGP reads ANDROID_NDK_ROOT/ANDROID_NDK_HOME/ANDROID_NDK; leave
+          # ANDROID_NDK_LATEST_HOME set so android-wallet-mainnet.sh can find the
+          # NDK's llvm-strip and ship stripped (~11 MB) instead of unstripped
+          # (~111 MB) libraries.
+          echo "ANDROID_NDK_ROOT=" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK=" >> "$GITHUB_ENV"
+
+      # libwallet-jni.so is gitignored; fetch the current libs from the
+      # BeamMW/beam Build workflow artifacts (see android-wallet-mainnet.sh).
+      - name: Fetch native wallet libraries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./android-wallet-mainnet.sh
+
+      # No signing config is checked in (signingConfigs is empty), so Gradle
+      # emits unsigned release APKs; the signing step below takes it from there.
+      - name: Build
+        run: ./gradlew assembleMainnetRelease --no-daemon
+
+      # Android refuses to install unsigned APKs, so sign with the dedicated CI
+      # keystore from the repo secrets. This is a test-signing key, not the Play
+      # release key: CI builds update over each other, but can't update a
+      # Play-store install (or vice versa - uninstall first). Fork PRs get no
+      # secrets and keep the unsigned APKs. apksigner comes from the runner's
+      # preinstalled SDK (newest build-tools), independent of the minimal
+      # AGP-3.5 SDK above; fall back to that one if the layout ever changes.
+      - name: Sign APKs
+        env:
+          KS_B64: ${{ secrets.CI_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.CI_KEYSTORE_PASS }}
+        run: |
+          set -e
+          if [ -z "$KS_B64" ] || [ -z "$KS_PASS" ]; then
+            echo "CI keystore secrets unavailable; leaving the APKs unsigned."
+            exit 0
+          fi
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/ci.keystore"
+          APKSIGNER=$(find /usr/local/lib/android/sdk/build-tools -name apksigner 2>/dev/null | sort -V | tail -1)
+          [ -n "$APKSIGNER" ] || APKSIGNER=$(find "$HOME/android-sdk-agp35/build-tools" -name apksigner | sort -V | tail -1)
+          for apk in app/build/outputs/apk/mainnet/release/*-release-unsigned.apk; do
+            "$APKSIGNER" sign --ks "$RUNNER_TEMP/ci.keystore" --ks-pass env:KS_PASS \
+              --out "${apk%-unsigned.apk}.apk" "$apk"
+            rm "$apk"
+          done
+          rm "$RUNNER_TEMP/ci.keystore"
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-mainnet-release
+          path: |
+            app/build/outputs/apk/mainnet/release/app-mainnet-arm64-v8a-release*.apk
+            app/build/outputs/apk/mainnet/release/app-mainnet-universal-release*.apk
+          if-no-files-found: error

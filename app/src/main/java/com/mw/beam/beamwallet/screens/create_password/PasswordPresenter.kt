@@ -32,8 +32,19 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
     private val strengthWeak = Regex("((?=.{6,})(?=.*[0-9]))|((?=.{6,})(?=.*[A-Z]))|((?=.{6,})(?=.*[a-z]))")
     private val strengthMedium = Regex("((?=.{6,})(?=.*[A-Z])(?=.*[a-z]))|((?=.{6,})(?=.*[0-9])(?=.*[a-z]))")
     private val strengthMediumStrong = Regex("(?=.{8,})(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
-    private val strengthStrong = Regex("(?=.{10,})(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
+    private val strengthStrong = requirements
     private val strengthVeryStrong = Regex("(?=.{10,})(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
+
+    companion object {
+        /**
+         * The rules the screen spells out in `pass_description_*`: at least ten characters,
+         * a lowercase letter, an uppercase letter and a digit. Only a *new* password has to
+         * meet them — the current-password field is checked against the wallet itself.
+         */
+        val requirements = Regex("(?=.{10,})(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
+
+        fun meetsRequirements(pass: String) = requirements.containsMatchIn(pass)
+    }
 
     override fun onCreate() {
         super.onCreate()

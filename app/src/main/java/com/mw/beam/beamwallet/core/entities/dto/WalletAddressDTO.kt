@@ -22,15 +22,20 @@ import kotlinx.android.parcel.Parcelize
 /**
  *  1/4/19.
  */
+/**
+ * Constructed from native code (JNI), which can pass null for any String field —
+ * e.g. token-address callbacks leave walletID/label null. Keep the String fields
+ * nullable and default them at the boundary (see WalletAddress).
+ */
 @Parcelize
-data class WalletAddressDTO(val walletID: String,
-                            var label: String,
-                            var category: String,
+data class WalletAddressDTO(val walletID: String?,
+                            var label: String?,
+                            var category: String?,
                             val createTime: Long,
                             var duration: Long,
                             val own: Long,
-                            var identity: String,
-                            var address: String) : Parcelable {
+                            var identity: String?,
+                            var address: String?) : Parcelable {
     
     enum class WalletAddressExpirationStatus {
         Expired,

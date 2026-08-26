@@ -37,7 +37,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var faucetGeneratedSubscription: Disposable
     private lateinit var subOnCurrenciesSubscription: Disposable
 
 
@@ -128,10 +127,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showReceiveFaucet()
     }
 
-    override fun generateFaucetAddress() {
-        AppManager.instance.createAddressForFaucet()
-    }
-
     override fun initSubscriptions() {
         super.initSubscriptions()
 
@@ -159,17 +154,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
             view?.configWalletStatus(state.getAssets())
         }
 
-        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe {
-          AppActivity.self.runOnUiThread {
-              val link =  when (BuildConfig.FLAVOR) {
-                  AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
-                  AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
-                  else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=app://open.master.app"
-              }
-              view?.onFaucetAddressGenerated(link)
-          }
-        }
-
         subOnCurrenciesSubscription = AppManager.instance.subOnCurrenciesChanged.subscribe {
             App.self.runOnUiThread {
                 view?.configTransactions(state.getTransactions())
@@ -187,7 +171,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable> = arrayOf(walletStatusSubscription, txStatusSubscription, faucetGeneratedSubscription, subOnCurrenciesSubscription)
+    override fun getSubscriptions(): Array<Disposable> = arrayOf(walletStatusSubscription, txStatusSubscription, subOnCurrenciesSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

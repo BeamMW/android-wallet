@@ -35,7 +35,6 @@ import com.mw.beam.beamwallet.core.entities.DAOApp
 import com.mw.beam.beamwallet.core.entities.dto.ContractConsentDTO
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.apps.confirm.AppConfirmDialog
-import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
 import kotlinx.android.synthetic.main.fragment_app_detail.*
 import kotlinx.android.synthetic.main.fragment_app_detail.toolbarLayout
@@ -107,7 +106,7 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
                    AppManager.instance.wallet?.contractInfoRejected(request)
                }
            }
-           dialog.show(activity?.supportFragmentManager!!, TimerOverlayDialog.getFragmentTag())
+           dialog.show(activity?.supportFragmentManager!!, AppConfirmDialog.getFragmentTag())
        }
     }
 

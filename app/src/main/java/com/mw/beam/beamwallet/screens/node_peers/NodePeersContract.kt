@@ -14,35 +14,21 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
+package com.mw.beam.beamwallet.screens.node_peers
 
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
-/**
- *  10/30/18.
- */
-interface WelcomeSeedContract {
-    interface View : MvpView {
-        fun showConfirmFragment(seed: Array<String>)
-        fun showPasswordFragment(seed: Array<String>)
-        fun configSeed(seed: Array<String>)
-        fun showCopiedAlert()
-        fun showSaveAlert()
-        fun onBack()
-        fun isVerification(): Boolean
-        fun onlyDisplay(): Boolean
+interface NodePeersContract {
+
+    interface View: MvpView {
+        fun updatePeers(activeNode: String, pool: List<String>)
     }
 
-    interface Presenter : MvpPresenter<View> {
-        fun onNextPressed()
-        fun onCopyPressed()
-        fun onDonePressed()
-        fun oLaterPressed()
+    interface Presenter: MvpPresenter<View> {
     }
 
-    interface Repository : MvpRepository {
-        fun seed(useExistingSeed: Boolean): Array<String>
+    interface Repository: MvpRepository {
     }
 }

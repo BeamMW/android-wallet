@@ -135,8 +135,10 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
 
+    override fun isVerification(): Boolean = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).isVerification } ?: false
+
     override fun showPasswordsFragment(seed: Array<String>) {
-        if(App.isAuthenticated) {
+        if(isVerification()) {
            findNavController().popBackStack(R.id.walletFragment, false)
         }
         else{
@@ -147,7 +149,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun showSeedFragment() {
-        if(App.isAuthenticated) {
+        if(isVerification()) {
             findNavController().popBackStack(R.id.walletFragment, false)
         }
         else{

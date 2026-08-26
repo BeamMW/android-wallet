@@ -83,7 +83,6 @@ import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.screens.node.NodeFragmentDirections
-import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 import kotlinx.android.synthetic.main.dialog_confirmations_settings.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.radioGroupLockSettings
 import kotlinx.android.synthetic.main.item_settings.view.textLabel
@@ -203,13 +202,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 items.add(s1.toTypedArray())
                 items.add(s3.toTypedArray())
-
-                if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
-                {
-                    val s5 = mutableListOf<SettingsItem>()
-                    s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
-                    items.add(s5.toTypedArray())
-                }
             }
 
             mode()== SettingsFragmentMode.General -> {
@@ -223,7 +215,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 val s2 = mutableListOf<SettingsItem>()
-              //  s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
+                s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
                 s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
@@ -238,13 +230,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Node -> {
+                // Everything node-related in one place, the way the iOS wallet groups it: which
+                // kind of node to use, who it is talking to, and the key a node needs to serve
+                // this wallet. Owner key moved here out of Privacy for the same reason.
                 val s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, SettingsFragmentMode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
+                s1.add(SettingsItem(null, getString(R.string.node_type), currentNodeTypeLabel(), SettingsFragmentMode.NodeType))
+                s1.add(SettingsItem(null, getString(R.string.node_peers),null, SettingsFragmentMode.NodePeers))
+                s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, SettingsFragmentMode.OwnerKey))
                 items.add(s1.toTypedArray())
-
-                val s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(null, getString(R.string.mobile_node_title),getString(R.string.mobile_node_text), SettingsFragmentMode.MobileNode, switch = true))
-                items.add(s2.toTypedArray())
 
                 toolbarLayout.changeNodeButton.alpha = 0f
                 toolbarLayout.changeNodeButton.visibility = View.GONE
@@ -259,7 +252,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 if (OnboardManager.instance.isSkipedSeed()) {
                     s1.add(SettingsItem(null, getString(R.string.complete_seed_verification),null, SettingsFragmentMode.Verification))
                 }
-                s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, SettingsFragmentMode.OwnerKey))
                 s1.add(SettingsItem(null, getString(R.string.change_password),null, SettingsFragmentMode.ChangePassword))
                 items.add(s1.toTypedArray())
             }
@@ -281,7 +273,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 val s3 = mutableListOf<SettingsItem>()
                 s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
-                s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
              //   items.add(s1.toTypedArray())
@@ -312,11 +303,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         allItems.addAll(s1)
         allItems.addAll(s3)
-
-        if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
-        {
-            allItems.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
-        }
 
         val lockScreenValue = presenter?.repository?.getLockScreenValue() ?: 0L
         val maxPrivacyValue = getMaxPrivacyStringValue(AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L, false)
@@ -371,7 +357,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         s3 = mutableListOf<SettingsItem>()
         s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
-        s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
         s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
         allItems.addAll(s1)
@@ -389,7 +374,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         val status = AppManager.instance.getStatus().system.height
 
         appVersionTitle.text = ""
-        appVersionValue.text = "v " + BuildConfig.VERSION_NAME
+        appVersionValue.text = AppConfig.APP_VERSION_LABEL
         blockChainHeight.text = getString(R.string.blockchain_height) + ": " + status.toString()
 
         onBackPressedCallback.isEnabled = true
@@ -499,11 +484,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         it.parent as SettingsItemView
                     }
 
-                    if(item.mode == SettingsFragmentMode.Node) {
+                    if(item.mode == SettingsFragmentMode.NodeType) {
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodeFragment(false, null, arrayOf()))
                     }
                     else if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Privacy
-                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Notifications) {
+                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Notifications
+                            || item.mode == SettingsFragmentMode.Node) {
                                 findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
@@ -592,11 +578,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         App.isDarkMode = isDark
                         PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, isDark)
-                        (activity as? AppActivity)?.changeTheme()
-                        (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
 
-                        val ft = requireFragmentManager().beginTransaction()
-                        ft.detach(this).attach(this).commit()
+                        // setTheme() only affects views inflated after the call, so re-attaching
+                        // just this fragment left every other screen — and the activity's own
+                        // chrome — painted with the previous theme's ?attr colours until the app
+                        // was restarted. Recreating re-inflates everything against the new theme.
+                        AppActivity.returnToSettings = true
+                        activity?.recreate()
                     }
                     else  if (item.mode == SettingsFragmentMode.ShareDB) {
                         ZipManager.zip(AppConfig.DB_PATH, AppConfig.ZIP_PATH);
@@ -610,20 +598,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         shareIntent.action = Intent.ACTION_SEND;
                         startActivity(shareIntent)
                     }
-                    else if (item.mode == SettingsFragmentMode.ShowPublicOfflineAddress) {
-                        presenter?.onShowPublicOfflineAddressPressed()
+                    else if (item.mode == SettingsFragmentMode.NodePeers) {
+                        presenter?.onNodePeersPressed()
                     }
                     else if (item.mode == SettingsFragmentMode.Rescan) {
                         presenter?.onRescanPressed()
                     }
                     else if (item.mode == SettingsFragmentMode.UTXO) {
                         presenter?.onUTXOPressed()
-                    }
-                }
-
-                if (mode() == SettingsFragmentMode.Node) {
-                    item.cardItem.setOnClickListener {
-                        presenter?.onNodeAddressPressed()
                     }
                 }
 
@@ -975,34 +957,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showReceiveFaucet() {
-        val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-
-        if (allow) {
-            presenter?.generateFaucetAddress()
-        }
-        else{
-            showAlert(
-                    getString(R.string.common_external_link_dialog_message),
-                    getString(R.string.open),
-                    {  presenter?.generateFaucetAddress() },
-                    getString(R.string.common_external_link_dialog_title),
-                    getString(R.string.cancel)
-            )
-        }
-    }
-
-    override fun onFaucetAddressGenerated(link: String) {
-        blurView.visibility = View.VISIBLE
-
-        jp.wasabeef.blurry.Blurry.with(context).capture(view).into(blurView)
-
-        val dialog = TimerOverlayDialog.newInstance {
-            blurView.visibility = View.GONE
-            if(it) {
-                openExternalLink(link)
-            }
-        }
-        dialog.show(activity?.supportFragmentManager!!, TimerOverlayDialog.getFragmentTag())
+        // The old web faucet (faucet.beamprivacy.community) is gone; open the
+        // BEAM Faucet dApp in the in-app browser instead.
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToAppDetailFragment(DAOManager.getFaucetApp()))
     }
 
     private fun isEnableFingerprint(): Boolean {
@@ -1058,12 +1015,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 uiThread {
 
                     val subject =  when(BuildConfig.FLAVOR) {
-                        AppConfig.FLAVOR_MASTERNET -> {
-                            "beam wallet masternet logs"
-                        }
-                        AppConfig.FLAVOR_TESTNET -> {
-                            "beam wallet testnet logs"
-                        }
                         AppConfig.FLAVOR_MAINNET -> {
                             "beam wallet logs"
                         }
@@ -1095,6 +1046,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun addListeners() {
 
+    }
+
+    private fun currentNodeTypeLabel(): String {
+        return when {
+            PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false) -> getString(R.string.mobile_node_title)
+            PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true) -> getString(R.string.random_node_title)
+            else -> getString(R.string.own_node_title)
+        }
     }
 
     private fun createNodeSpannableString(): Spannable {
@@ -1535,6 +1494,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                         } catch (e: IOException) {
                             e.printStackTrace()
+
+                            showSnackBar(getString(R.string.wallet_data_not_saved))
                         }
                     }
 
@@ -1614,19 +1575,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     }
 
-    override fun showPublicOfflineAddress() {
-        if(AppManager.instance.isMaxPrivacyEnabled()) {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPublicOfflineAddressFragment())
-        }
-        else {
-            showAlert(message = getString(R.string.connect_node_offline_public),
-                    btnConfirmText = getString(R.string.ok),
-                    onConfirm = {
-                    },
-                    title = getString(R.string.show_public_offline),
-                    btnCancelText = null,
-                    onCancel = {  })
-        }
+
+    override fun showNodePeers() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodePeersFragment())
     }
 
     override fun showUTXO() {
@@ -1646,11 +1597,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         return SettingsPresenter(this, SettingsRepository(), SettingsState())
     }
 
-    override fun exportError() {
+    override fun importError() {
         activity?.runOnUiThread {
-            showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+            showAlert(getString(R.string.import_failed_text), getString(R.string.ok), {
 
-            }, getString(R.string.incorrect_file_title))
+            }, getString(R.string.import_failed_title))
         }
     }
 }

@@ -97,18 +97,18 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
             transactionType.text = getString(R.string.offline)
         }
         else {
+            // This branch is the not-offline case, so a regular address is being sent to
+            // online — "Regular" named the address type, not the transaction type the row
+            // is labelled with, and read as the opposite of the "Offline" shown above.
             when (typeAddress) {
                 BMAddressType.BMAddressTypeMaxPrivacy -> {
                     transactionType.text = getString(R.string.max_privacy)
-                }
-                BMAddressType.BMAddressTypeRegular -> {
-                    transactionType.text = getString(R.string.regular)
                 }
                 BMAddressType.BMAddressTypeOfflinePublic -> {
                     transactionType.text = getString(R.string.public_offline)
                 }
                 else -> {
-                    transactionType.text = getString(R.string.regular)
+                    transactionType.text = getString(R.string.online)
                 }
             }
         }

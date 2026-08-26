@@ -39,11 +39,20 @@ class RestoreManager {
 
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
+    /**
+     * Why the last download failed, in the downloader's own words. The progress subject can only
+     * carry numbers, so the reason is left here for whoever handles the -1 emission; null when
+     * the download was cancelled rather than failed.
+     */
+    var lastError: String? = null
+        private set
+
     fun startDownload(file: File) {
+        lastError = null
+
         val link =  when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MAINNET -> "https://mobile-restore.beam.mw/mainnet/mainnet_recovery.bin"
-            AppConfig.FLAVOR_TESTNET -> "https://mobile-restore.beam.mw/testnet/testnet_recovery.bin"
-            else -> "https://s3.eu-central-1.amazonaws.com/mobile-restore.beam.mw/dappnet/dappnet_recovery.bin" //"https://mobile-restore.beam.mw/masternet/masternet_recovery.bin"
+            else -> "https://s3.eu-central-1.amazonaws.com/mobile-restore.beam.mw/dappnet/dappnet_recovery.bin"
         }
 
         val fetchConfiguration = FetchConfiguration.Builder(App.self.baseContext)
@@ -68,6 +77,7 @@ class RestoreManager {
             }
 
             override fun onError(download: Download, error: Error, throwable: Throwable?) {
+                lastError = describe(error, throwable)
                 subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
             }
 
@@ -116,6 +126,18 @@ class RestoreManager {
                 },
                 Func<Error> {
                 })
+    }
+
+    /**
+     * The HTTP status when the server answered at all — a 403 on the restore file reads very
+     * differently from a lost connection — and the downloader's own reason otherwise.
+     */
+    private fun describe(error: Error, throwable: Throwable?): String {
+        val code = error.httpResponse?.code ?: 0
+        if (code > 0) {
+            return "HTTP $code"
+        }
+        return throwable?.localizedMessage ?: error.name
     }
 
     fun stopDownload() {

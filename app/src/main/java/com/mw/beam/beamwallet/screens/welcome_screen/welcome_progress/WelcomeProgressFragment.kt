@@ -30,7 +30,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -200,33 +199,38 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         btnCancel.setOnClickListener(null)
     }
 
-    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
+    /**
+     * The percentage is the useful figure in the middle of a sync, but not at the ends: a phase
+     * replaces it with words when connecting, reconnecting, nearly finished or finalizing.
+     */
+    private fun syncDescription(progressData: OnSyncProgressData, phase: SyncPhase?): String {
+        val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+
+        val descriptionString = when (phase) {
+            SyncPhase.CONNECTING -> getString(R.string.sync_phase_connecting)
+            SyncPhase.RECONNECTING -> getString(R.string.sync_phase_reconnecting)
+            SyncPhase.ALMOST_DONE -> getString(R.string.sync_phase_almost_done)
+            SyncPhase.FINALIZING -> getString(R.string.sync_phase_finalizing)
+            null -> getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+        }
+
+        val estimateTime = if (progressData.time != null) {
+            getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+        }
+        else {
+            getString(R.string.calc_est_time).lowercase()
+        }
+
+        return descriptionString + "\n" + estimateTime
+    }
+
+    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean, phase: SyncPhase?) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-
-                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
-                val estimateTime = if (progressData.time != null) {
-                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
-                }
-                else {
-                    getString(R.string.calc_est_time).lowercase()
-                }
-
-                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
+                configProgress(countProgress(progressData), syncDescription(progressData, phase))
             }
             WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
-                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-
-                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
-                val estimateTime = if (progressData.time != null) {
-                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
-                }
-                else {
-                    getString(R.string.calc_est_time).lowercase()
-                }
-
-                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
+                configProgress(countProgress(progressData), syncDescription(progressData, phase))
             }
             WelcomeMode.RESTORE -> {
 
@@ -307,7 +311,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
-        appVersion.text = "v " + BuildConfig.VERSION_NAME
+        appVersion.text = AppConfig.APP_VERSION_LABEL
     }
 
     override fun onStart() {
@@ -346,8 +350,18 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 onCancel = { presenter?.onCancel() })
     }
 
-    override fun showFailedDownloadRestoreFileAlert() {
-        showAlert(message = getString(R.string.welcome_progress_restore_error_description),
+    override fun showFailedDownloadRestoreFileAlert(details: String?) {
+        // The old copy blamed the node connection, which was a guess — the download can just as
+        // well have been refused by the server. Say what actually happened and append the
+        // downloader's reason, so a report carries something diagnosable.
+        val message = if (details.isNullOrEmpty()) {
+            getString(R.string.welcome_progress_restore_download_error)
+        }
+        else {
+            getString(R.string.welcome_progress_restore_download_error) + "\n\n" + details
+        }
+
+        showAlert(message = message,
                 btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
                 onConfirm = { presenter?.onTryAgain() },
                 title = getString(R.string.welcome_progress_restore_error_title),

@@ -99,13 +99,7 @@ class AssetManager {
         assetBeam.paper = ""
         assets.add(assetBeam)
 
-        var assetId = 7
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
-            assetId = 31
-        }
-        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
-            assetId = 12
-        }
+        val assetId = 7
 
         val assetBeamX = Asset(assetId ,0L, 0L,
             0,0L,0L,0L,0,0,
@@ -122,14 +116,7 @@ class AssetManager {
     }
 
     fun beamXId():Int {
-        var assetId = 7
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
-            assetId = 31
-        }
-        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
-            assetId = 12
-        }
-        return assetId
+        return 7
     }
 
     fun clear() {

@@ -40,8 +40,12 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
 
-    private fun onlyDisplay():Boolean {
+    override fun onlyDisplay():Boolean {
         return WelcomeSeedFragmentArgs.fromBundle(arguments!!).onlyDisplay
+    }
+
+    override fun isVerification():Boolean {
+        return WelcomeSeedFragmentArgs.fromBundle(arguments!!).isVerification
     }
 
     private lateinit var copiedAlert: String
@@ -62,14 +66,6 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             presenter?.onNextPressed()
         }
 
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET)
-        {
-            seedLayout.setOnLongClickListener {
-                presenter?.onCopyPressed()
-                return@setOnLongClickListener true
-            }
-        }
-
         btnLater.setOnClickListener {
             presenter?.oLaterPressed()
         }
@@ -81,7 +77,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             btnLater.visibility = View.GONE
             btnNext.visibility = View.GONE
         }
-        else if(App.isAuthenticated) {
+        else if(isVerification()) {
             btnLater.visibility = View.GONE
         }
 
@@ -138,7 +134,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun showConfirmFragment(seed: Array<String>) {
-        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed))
+        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed, isVerification()))
     }
 
     override fun showPasswordFragment(seed: Array<String>) {

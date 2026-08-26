@@ -37,7 +37,10 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     override fun onViewCreated() {
         super.onViewCreated()
 
-        seed = repository.seed().toMutableList()
+        // Both verifying and displaying the seed must show the wallet's existing
+        // seed; only the create flow generates a fresh mnemonic.
+        val useExistingSeed = view?.isVerification() == true || view?.onlyDisplay() == true
+        seed = repository.seed(useExistingSeed).toMutableList()
 
         view?.configSeed(seed.toTypedArray())
     }
@@ -47,7 +50,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     }
 
     override fun onNextPressed() {
-        if (!App.isAuthenticated) {
+        if (view?.isVerification() != true) {
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
         }
 
@@ -60,7 +63,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     }
 
     override fun oLaterPressed() {
-        if (!App.isAuthenticated) {
+        if (view?.isVerification() != true) {
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, true)
             view?.showPasswordFragment(seed.toTypedArray())
         }

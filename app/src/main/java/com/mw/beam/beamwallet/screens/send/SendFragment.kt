@@ -355,6 +355,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
+    override fun refreshAddressType() {
+        AppActivity.self.runOnUiThread {
+            // setAddressType() may call updateMaxPrivacyCount(), which only writes a label —
+            // it must never call back here, or this would recurse.
+            if (address.isNotEmpty() && AppManager.instance.isValidAddress(address)) {
+                setAddressType(address)
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun updateMaxPrivacyCount(count: Int) {
         AppActivity.self.runOnUiThread {

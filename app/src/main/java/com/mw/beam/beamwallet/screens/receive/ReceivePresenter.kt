@@ -49,6 +49,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     private var oldAssetId = 0
     private var forceRequest = false
     private var firstLoad = false
+    private var didGenerateNewAddress = false
     var isSBBS = false
 
     override fun onViewCreated() {
@@ -279,12 +280,33 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
 
         if (state.address == null) {
+            // Re-tokenise the persisted default address instead of minting a new one, so
+            // opening Receive repeatedly does not fill the address book with unused SBBS
+            // addresses. A fresh address is only minted when the user asks for one via the
+            // refresh button (see onRefreshAddressPressed).
             val amount = view?.getAmount()?.convertToGroth() ?: 0L
             val assetId = view?.getAssetId() ?: 0
             AppManager.instance.wallet?.generateRegularAddress(amount, assetId)
-
-//            AppManager.instance.wallet?.generateNewAddress()
         }
+    }
+
+    // Mirrors the desktop wallet's Receive "refresh" button (ReceiveViewModel::generateNewAddress).
+    // Desktop passes a newAddress flag to generateToken() and drops the previously shown address
+    // with deleteAddressByToken(). The Android JNI surface exposes neither, so this approximates
+    // both: generateNewAddress() for the mint, and deleteAddress(walletID) for the drop — and it
+    // only drops addresses this screen itself minted, never the persisted default.
+    // TODO: replace with generateToken(type, amount, assetId, newAddress) + deleteAddressByToken()
+    //  once beam/android/jni.cpp exposes them, matching the desktop implementation exactly.
+    override fun onRefreshAddressPressed() {
+        if (didGenerateNewAddress) {
+            state.address?.id?.let { AppManager.instance.wallet?.deleteAddress(it) }
+        }
+        didGenerateNewAddress = true
+
+        // subOnAddressCreated only adopts the incoming address while state.address is null.
+        state.address = null
+        forceRequest = true
+        AppManager.instance.wallet?.generateNewAddress()
     }
 
     override fun onTokenPressed() {

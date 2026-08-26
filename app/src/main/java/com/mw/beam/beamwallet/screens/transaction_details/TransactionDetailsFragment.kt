@@ -139,8 +139,11 @@ else{
                 menu?.findItem(R.id.saveContact)?.isVisible = false
             }
             else {
+                // Hide when there is no counterparty address to save (shielded receives), so the
+                // option is never offered for a transaction it cannot act on.
                 val contact = AppManager.instance.getAddress(transaction.peerId)
-                menu?.findItem(R.id.saveContact)?.isVisible = contact == null
+                menu?.findItem(R.id.saveContact)?.isVisible =
+                    contact == null && transaction.contactAddress().isNotEmpty()
             }
 
             menu?.findItem(R.id.dapp)?.isVisible = transaction.isDapps == true
@@ -204,7 +207,10 @@ else{
 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
-
+        // Repaint the contact rows and menu right away, so a just-saved contact shows its
+        // name without reopening the screen and the "Save contact" entry disappears.
+        configGeneralTransactionInfo(txDescription)
+        activity?.invalidateOptionsMenu()
     }
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
@@ -247,9 +253,16 @@ else{
             startAddress.text = getString(R.string.shielded_pool)
             senderLayout.visibility = View.GONE
         }
-        endAddress.text = txDescription.receiverAddress
+        // Mirrors the desktop wallet (TransactionDetailsPopup.qml): show the token when the
+        // transaction carries one, otherwise the receiver address. An offline receive lands in
+        // the shielded pool with no receiver wallet ID at all — the core returns an empty
+        // string for a zero ID — which used to render an empty "Receiving address:" row.
+        endAddress.text = if (txDescription.token.isNotEmpty()) txDescription.token else txDescription.receiverAddress
 
+        // Also try peerId: contacts are keyed by SBBS wallet ID, which a token-valued
+        // sender/receiver address never matches (the menu check already uses peerId).
         val start = AppManager.instance.getAddress(txDescription.senderAddress)
+                ?: if (txDescription.sender != TxSender.SENT) AppManager.instance.getAddress(txDescription.peerId) else null
 
         if (start != null && start.label.isNotEmpty()) {
             startContactLayout.visibility = View.VISIBLE
@@ -263,11 +276,21 @@ else{
         }
 
         val end = AppManager.instance.getAddress(txDescription.receiverAddress)
+                ?: if (txDescription.sender == TxSender.SENT) AppManager.instance.getAddress(txDescription.peerId) else null
         if (end != null && end.label.isNotEmpty()) {
             endContactLayout.visibility = View.VISIBLE
             endContactValue.text = end.label
         } else {
             endContactLayout.visibility = View.GONE
+        }
+
+        if (endAddress.text.isNullOrEmpty()) {
+            receiverLayout.visibility = View.GONE
+        }
+        else if (txDescription.isDapps != true) {
+            // The details re-render as the transaction changes, so the row has to come back
+            // once an address is known — but never for dApp transactions, hidden above.
+            receiverLayout.visibility = View.VISIBLE
         }
 
         addressTypeLabel.text = txDescription.getAddressType(requireContext())
@@ -322,19 +345,22 @@ else{
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
-        dateTitleLabel.text = dateTitleLabel.text.toString() + ":"
-        startAddressTitle.text = startAddressTitle.text.toString() + ":"
-        endAddressTitle.text = endAddressTitle.text.toString() + ":"
-        addressTypeTitleLabel.text = addressTypeTitleLabel.text.toString() + ":"
-        confirmationTitleLabel.text = confirmationTitleLabel.text.toString() + ":"
-        amountTitleLabel.text = amountTitleLabel.text.toString() + ":"
-        feeTitleLabel.text = feeTitleLabel.text.toString() + ":"
-        dAppNameTitleLabel.text = dAppNameTitleLabel.text.toString() + ":"
-        dAppShaderTitleLabel.text = dAppShaderTitleLabel.text.toString() + ":"
+        // From the string resources, not the labels' current text: this method runs again on
+        // every transaction or address-book event, and appending to the current text grew a
+        // colon per repaint ("DATE::::").
+        dateTitleLabel.text = getString(R.string.date) + ":"
+        startAddressTitle.text = getString(R.string.sending_address) + ":"
+        endAddressTitle.text = getString(R.string.receiving_address) + ":"
+        addressTypeTitleLabel.text = getString(R.string.address_type) + ":"
+        confirmationTitleLabel.text = getString(R.string.confirmation_status) + ":"
+        amountTitleLabel.text = getString(R.string.amount) + ":"
+        feeTitleLabel.text = getString(R.string.fee) + ":"
+        dAppNameTitleLabel.text = getString(R.string.dapp_anme) + ":"
+        dAppShaderTitleLabel.text = getString(R.string.app_shader_id) + ":"
         commentTitleLabel.text = commentTitleLabel.text.toString() + ":"
-        transactionIdTitleLabel.text = transactionIdTitleLabel.text.toString() + ":"
-        kernelTitleLabel.text = kernelTitleLabel.text.toString() + ":"
-        failedTitle.text = failedTitle.text.toString() + ":"
+        transactionIdTitleLabel.text = getString(R.string.transaction_id) + ":"
+        kernelTitleLabel.text = getString(R.string.kernel_id) + ":"
+        failedTitle.text = getString(R.string.failure_reason) + ":"
 
         addressTypeProofTitleLabel.text = addressTypeTitleLabel.text.toString()
         kernelProofTitleLabel.text = kernelTitleLabel.text.toString()
@@ -363,7 +389,7 @@ else{
         kernelProofButton.visibility = kernelButton.visibility
         kernelProofLabel.text = kernelLabel.text.toString()
 
-        proofCodeTitleLabel.text = proofCodeTitleLabel.text.toString() + ":"
+        proofCodeTitleLabel.text = getString(R.string.code) + ":"
 
         if (!AppManager.instance.isToken(endAddress.text.toString())) {
             senderProofLayout.visibility = View.GONE

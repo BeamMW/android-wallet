@@ -110,15 +110,19 @@ else{
 
         if (address.isExpired || state.shouldExpireNow) {
             extendButton.visibility = View.GONE
+            neverExpiresButton.visibility = View.GONE
             expireLabel.text = getText(R.string.expired)
             expireButton.text = getString(R.string.activate)
         }
         else {
             if (address.duration == 0L) {
                 extendButton.visibility = View.GONE
+                // Already permanent — nothing for "never" to do.
+                neverExpiresButton.visibility = View.GONE
                 expireLabel.text =  getString(R.string.address_never_expired)
             }
             else {
+                neverExpiresButton.visibility = View.VISIBLE
                 expireLabel.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
             }
             expireButton.text = getString(R.string.expire_address_now)
@@ -247,6 +251,9 @@ else{
                 presenter?.state?.shouldActivateNow = true
                 presenter?.state?.shouldExpireNow = false
 
+                // Re-activating gives the address a duration again, so it is no longer "never".
+                presenter?.onExpirePeriodChanged(ExpirePeriod.EXTEND)
+
                 val c = Calendar.getInstance()
                 c.time = Date()
                 c.add(Calendar.DATE, 61)
@@ -272,6 +279,8 @@ else{
             presenter?.state?.shouldActivateNow = true
             presenter?.state?.shouldExpireNow = false
 
+            presenter?.onExpirePeriodChanged(ExpirePeriod.EXTEND)
+
             val c = Calendar.getInstance()
             c.time = Date()
             c.add(Calendar.DATE, 61)
@@ -279,6 +288,24 @@ else{
             presenter?.state?.address?.isExpired = false
             presenter?.state?.address?.createTime = (Calendar.getInstance().timeInMillis/1000)
             presenter?.state?.address?.duration = maxAddressDuration
+
+            setExpireStatus()
+        }
+
+        // Without this a 24h address could only ever be extended by another 61 days: there was
+        // no way from a limited address to a permanent one, though the core has accepted the
+        // Never expiration status all along.
+        neverExpiresButton.setOnClickListener {
+            canSave = true
+
+            presenter?.onExpirePeriodChanged(ExpirePeriod.NEVER)
+
+            presenter?.state?.shouldExtend = false
+            presenter?.state?.shouldActivateNow = false
+            presenter?.state?.shouldExpireNow = false
+
+            presenter?.state?.address?.isExpired = false
+            presenter?.state?.address?.duration = 0L
 
             setExpireStatus()
         }

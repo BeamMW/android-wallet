@@ -35,6 +35,7 @@ interface WelcomeConfirmContract {
         fun clearSuggestions()
         fun showSeedAlert()
         fun showSeedFragment()
+        fun isVerification(): Boolean
     }
 
     interface Presenter : MvpPresenter<View> {

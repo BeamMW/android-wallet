@@ -25,6 +25,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 /**
@@ -183,7 +184,12 @@ class AddressesPagerAdapter(val context: Context,
     fun setData(tab: Tab, addresses: List<WalletAddress>) {
         when (tab) {
             Tab.ACTIVE -> activeAdapter.apply {
-                setData(addresses.sortedByDescending { it.createTime })
+                // Public offline stays pinned at the top; it carries no creation time of its own,
+                // so newest-first would otherwise bury it at the bottom of the list.
+                val publicOffline = AppManager.instance.publicOfflineAddress
+                setData(addresses.sortedWith(
+                    compareByDescending<WalletAddress> { publicOffline.isNotEmpty() && it.id == publicOffline }
+                        .thenByDescending { it.createTime }))
                 notifyDataSetChanged()
             }
             Tab.EXPIRED -> expiredAdapter.apply {

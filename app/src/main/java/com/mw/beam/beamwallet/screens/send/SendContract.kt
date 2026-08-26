@@ -47,6 +47,7 @@ interface SendContract {
         fun clearToken(clearedToken: String?)
         fun init(defaultFee: Int, max: Int)
         fun updateMaxPrivacyCount(count: Int)
+        fun refreshAddressType()
        // fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()

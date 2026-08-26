@@ -94,6 +94,7 @@
     <string name="welcome_progress_open">Loading wallet</string>
     <string name="welcome_progress_restore">Restoring wallet</string>
     <string name="welcome_progress_restore_error_title">Wallet restore failure</string>
+    <string name="welcome_progress_restore_download_error">The restore file couldn\'t be downloaded. Please try again later.</string>
     <string name="welcome_progress_restore_error_description">The wallet can’t connect to the node. Please try again later.</string>
     <string name="welcome_progress_restore_btn_try_again">Try again</string>
     <string name="welcome_progress_cancel_restore_title">Canceling restore</string>
@@ -114,6 +115,7 @@
     <string name="pass_description_uppercase">•  must contain at least one uppercase letter</string>
     <string name="pass_description_number">•  must contain at least one number</string>
     <string name="password_can_not_be_empty">Password can not be empty</string>
+    <string name="password_does_not_meet_requirements">Password does not meet the requirements below</string>
     <string name="pass_old_pass_error">New password cannot be the same as old</string>
     <string name="pass_wrong">Wrong password</string>
     <string name="confirm_password">Password confirmation</string>
@@ -173,6 +175,8 @@
     <string name="coinbase">Coinbase</string>
     <string name="decoy">Decoy</string>
     <string name="regular">Regular</string>
+    <!-- Protocol acronym — identical in every locale, so it is intentionally not translated. -->
+    <string name="sbbs">SBBS</string>
     <string name="kernel">Kernel</string>
     <string name="kernel2">Kernel2</string>
     <string name="identity">Signature</string>
@@ -253,6 +257,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Node peers</string>
+    <string name="node_type">Node type</string>
+    <string name="node_peer_active">Active node</string>
+    <string name="node_peer_pool">Node pool</string>
+    <string name="node_peer_connected">Connected</string>
+    <string name="node_peer_disconnected">Disconnected</string>
+    <string name="node_peer_last_seen">Last seen at %s</string>
+    <string name="node_peer_in_use">in use</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Lock screen</string>
@@ -365,7 +377,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
-    <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor online payment to complete, you should get online during 12 hours after coins are sent.</string>
+    <string name="receive_description">Sender will be given a choice between online and offline payment.\n\nFor online payment to complete, you will need to open and connect your wallet sometime within 12 hours after the coins are sent.</string>
     <string name="search_by_address_tag_or_name">Search by name or paste address</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -418,6 +430,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
 address or contact</string>
     <string name="address_details">Address details</string>
+    <string name="generate_new_address">Generate new address</string>
+    <string name="generate_new_address_hint">Reusing an address is safe (addresses are not stored onchain) — a new one is only needed if you want to keep payments unlinked.</string>
     <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
 
@@ -459,6 +473,8 @@ address or contact</string>
     <string name="utilities">Utilities</string>
     <string name="incorrect_file_title">Incorrect file</string>
     <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_failed_title">Data not imported</string>
+    <string name="import_failed_text">The wallet couldn’t import this data. It was most likely exported from a wallet with a different seed phrase, so its addresses and transactions don’t belong to this one.</string>
     <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
     <string name="imp">Import</string>
     <string name="change_node_text_2">Use your fingerprint or enter your password to change node settings</string>
@@ -467,6 +483,7 @@ address or contact</string>
     <string name="privacy">Privacy</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="wallet_data_not_saved">Couldn’t save the wallet data to Downloads. Try sharing it instead.</string>
     <string name="remove_wallet_password_1">Use your fingerprint or enter your password to remove current wallet</string>
     <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
     <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
@@ -485,7 +502,6 @@ address or contact</string>
     <string name="dont_use">Don\'t use</string>
     <string name="since_block_height">Since block height</string>
     <string name="import_data_warning">Only the data exported from the wallet with the same seed phrase can be imported.</string>
-    <string name="faucet_redirect_text">Redirecting to the faucet website.\nYour address will be filled-in automatically.</string>
     <string name="clear_wallet_transactions_text">Unable to delete wallet with active transactions</string>
 
     <string name="background_mode_title">Allow wallet to run in background</string>
@@ -529,8 +545,8 @@ address or contact</string>
     <string name="wallet_id">Signature</string>
     <string name="share_token">Share address</string>
     <string name="token">Address</string>
-    <string name="reconnect_random">random node: reconnecting to another random node…</string>
-    <string name="reconnect_mobile">mobile node: reconnecting to another mobile node…</string>
+    <string name="reconnect_random">random node: reconnecting to another node…</string>
+    <string name="reconnect_mobile">mobile node: reconnecting…</string>
     <string name="reconnecting">reconnecting…</string>
     <string name="max_privacy_text">The receiver pays fees.</string>
     <string name="transaction_type">Transaction type</string>
@@ -596,6 +612,10 @@ address or contact</string>
     <string name="own_node_text">For those who run a node configured with the wallet’s Owner Key.</string>
     <string name="connect_to_mobilenode">Connecting to Mobile node</string>
     <string name="syncing_with_blockchain">Syncing with the blockchain</string>
+    <string name="sync_phase_connecting">Connecting to node…</string>
+    <string name="sync_phase_reconnecting">Reconnecting to node…</string>
+    <string name="sync_phase_almost_done">Almost done…</string>
+    <string name="sync_phase_finalizing">Finalizing…</string>
     <string name="please_no_lock">Please do not lock your phone and do not close the wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet connected to Mobile node</string>
     <string name="connect">Connect</string>
@@ -639,7 +659,7 @@ address or contact</string>
     <string name="transaction_time">Transaction can last at most %s.</string>
     <string name="online_new_status">random node supports online transactions only</string>
     <string name="remote_node_hint">To support maximum anonymity set and offline transactions please connect to mobile node or own node configured with your owner key.</string>
-    <string name="receive_description_2">For online payment to complete, you should get online during 12 hours after coins are sent.</string>
+    <string name="receive_description_2">For online payment to complete, you will need to open and connect your wallet sometime within 12 hours after the coins are sent.</string>
     <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
     <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s.</string>
     <string name="max_funds_hint">Maximum amount is %s</string>
@@ -772,7 +792,8 @@ address or contact</string>
     <string name="search_by_section_name_or_parameter">Search by section name or parameter</string>
     <string name="there_are_no_results_matching_search_criteria">There are no results\nmatching search criteria</string>
 
-    <string name="sbbs_address_new">SBBS ADDRESS\n(use for CEX withdrawals)</string>
+    <string name="sbbs_address_new">SBBS ADDRESS\n(use for CEX withdrawals and mining)</string>
+    <string name="sbbs_address_hint">use for CEX withdrawals and mining</string>
 
 </resources>
 
