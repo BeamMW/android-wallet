@@ -138,7 +138,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 updateAvailable(AssetManager.instance.getAvailable(presenter?.assetId ?: 0))
             }
             else if (!ignoreWatcher) {
-                address = token.toString()
+                address = token.text.toString()
             }
 
             Handler().postDelayed({ contentScrollView?.smoothScrollTo(0, 0) }, 50)
