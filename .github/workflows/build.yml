@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # The toolchain is pinned: AGP 3.5.0 + Gradle 6.1.1 only run on JDK 8-13,
       # and JDK 8's javac crashes on modern dependency jars, so JDK 11 it is.

@@ -285,23 +285,10 @@ object WalletListener {
             val minor = content.versionMinor.toInt()
             val revision = content.versionRevision.toInt()
 
-            var currentMajor = 0
-            var currentMinor = 0
-            var currentRevision = 0
-
             val array = versionName.split(".")
-            if(array.count() == 3) {
-                currentMajor = array[0].toInt()
-                currentMinor = array[1].toInt()
-                currentRevision = array[2].toInt()
-            }
-            else if(array.count() == 2) {
-                currentMajor = array[0].toInt()
-                currentMinor = array[1].toInt()
-            }
-            else {
-                currentMajor = versionName.toInt()
-            }
+            val currentMajor = array[0].toInt()
+            val currentMinor = array[1].toInt()
+            val currentRevision = array[2].toInt()
 
             var isUP = false
 

@@ -64,4 +64,6 @@ for legacy in armeabi armv8; do
     rm -rf "$jnilibs/$legacy"
 done
 
+echo "${name##*-}" > ./app/src/mainnet/beam_version.gen
+
 echo "Done. Installed ABIs: ${abis[*]}"

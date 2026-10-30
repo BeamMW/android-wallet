@@ -51,8 +51,9 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 32
-        versionCode 514
-        versionName "7.4b"
+        versionCode 515
+        versionName '7.4.' + file('src/mainnet/beam_version.gen').text.trim().tokenize('.')[2] + '.' +
+                'git rev-list HEAD --count'.execute(null, rootDir).text.trim()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
